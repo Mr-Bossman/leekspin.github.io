@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta property="og:type" content="leekspin.co">
+    <meta property="og:title" content="better leekspin" />
+    <meta property="og:description" content="a better version of leekspin.com" />
+    <meta property="og:url" content="leekspin.co" />
+    <meta property="og:image" content="https://leekspin.co/image" />
+    <style>
+        html {
+            height: 100%;
+            width: 100%; 
+        }
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%; 
+
+            background-color:rgb(0, 0, 0);
+            position: fixed;
+
+
+        }
+        #footer {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            height: 4%;
+            padding-bottom: 2%;
+            width: 100%;
+        }
+        #header {
+            width: 100%;
+            height: 6%;
+            background-color:rgb(218, 127, 52);
+            position: relative;
+            text-align: center;
+        }
+        #content {
+            margin-top: 3%;
+            text-align: center;
+            height: 80%;
+            width: 100%;
+        }
+        #footerlink:visited, #footerlink:link, #footerlink:active, #footerlink:hover {
+            text-decoration: none;
+            color: gray;
+
+        }
+        .text{
+            font-family: Arial, Helvetica, sans-serif;font-weight:lighter;
+        }
+        .centerH {
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+        #counter {
+            text-align: center;
+            top: 50%;
+            font-size: 200%; 
+            padding: 0;
+            margin: 0; 
+            color: white
+        }
+        #footerlink2:visited, #footerlink2:link, #footerlink2:active, #footerlink2:hover {
+            text-decoration: none;
+            color: gray;
+            font-size: 150%; 
+
+        }
+        #play{
+            color: gray;
+            border-radius: 7px;
+            border: 2px solid grey;
+            color: white;
+            text-align: center;
+            padding: .5%;
+            width: 10%;
+            margin: auto;
+        }
+        #image{
+            max-width: 100%;
+            width: auto;
+            height: 70%;
+            object-fit: contain;
+
+        }
+    </style>
+    <title>LEEKSPIN.CO</title>
+    <link rel="icon" href="/icon.png">
+
+</head>
+<body onclick="Play()">
+    <div id="header">
+        <div class="centerH">
+             <div class="text" style="font-size: 200%; padding: 0;margin: 0; color: white;">Welcome to a better leekspin.com</div>
+        </div>
+    </div>
+    <div id="content">
+        
+        <img id="image" src="/image">
+        <div id="counter" class="text">
+            You've been spinning for
+        </div>
+
+        <audio id="polkka" loop="loop" autoplay >
+            <source src="/polkka.ogg" type="audio/ogg">
+            <source src="/polkka.mp3" type="audio/mpeg" >
+            Your browser does not support the audio element.
+        </audio>
+        <div id="play" onclick="togglePlay()" class="text">Toggle Audio</div>
+
+    <div id="footer">
+        <a href="/info.txt" id="footerlink2" class="text">About</a>
+        <br>
+        <a href="https://labnet.cc" id="footerlink" class="text">Visit labnet.cc</a>
+    </div>
+</div>
+
+    <script>
+        var timerstart = Date.now();
+        console.log("came up with this in 5 minutes so not the best atleast it doesnt use flash ");
+        setInterval(function() {
+            var days = Math.floor(((Date.now()-timerstart) % (1000 * 60 * 60 * 24 *360)) / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(((Date.now()-timerstart) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor(((Date.now()-timerstart) % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor(((Date.now()-timerstart) % (1000 * 60)) / 1000);
+            document.getElementById("counter").innerHTML = "You've been spinning for " + days + ":" + hours + ":" + minutes + ":" + seconds + ".";
+        }, 1000);
+    </script>
+    <script>
+        var x = document.getElementById("polkka"); 
+        var isPlaying = false;
+        function Play() {
+            document.getElementsByTagName('body')[0].removeAttribute("onclick");
+            x.play();
+        }
+        function togglePlay() {
+            isPlaying ? x.pause() : x.play();
+        };
+
+        x.onplaying = function() {
+            isPlaying = true;
+        };
+        x.onpause = function() {
+            isPlaying = false;
+        };
+    </script>
+</body>
+</html>
