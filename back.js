@@ -43,7 +43,7 @@ app.get("/log", (req, res, next) => {
     new URL(req.url, req.protocol + "://" + req.headers.host + "/").searchParams
   );
   if (query[0] !== undefined) {
-    const common = query[0][0].substr(0, 8);
+    const common = query[0][0].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
     if (common in connected) {
       const time = Math.round((Date.now() - connected[common][1])/1000);
       connected[common] = [Date.now(), connected[common][1]];
