@@ -54,11 +54,13 @@ app.get("/log", (req, res, next) => {
       ) {
         // fill top 100
         let tmp = DB;
-        tmp[common] = time;
-        tmp = sort_object(tmp);
-        if (common in tmp) {
-          DB = tmp;
-          fs.writeFileSync("tops.json", JSON.stringify(DB));
+        if(tmp[common] < time || tmp[common] === undefined){
+          tmp[common] = time;
+          tmp = sort_object(tmp);
+          if (common in tmp) {
+            DB = tmp;
+            fs.writeFileSync("tops.json", JSON.stringify(DB));
+          }
         }
       }
     } else {
