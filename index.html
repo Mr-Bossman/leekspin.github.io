@@ -374,6 +374,12 @@
 
         function submit() {
             name = document.getElementById("nameinput").value;
+            if(name.length > 8 || name.replace(/[0-9]/gmi, '').length == 0){
+                name = "";
+                alert("Invalid Name.")
+            } else {
+                sendupdate();
+            }
         }
     </script>
 </body>
