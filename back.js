@@ -38,7 +38,7 @@ app.get("/tops", (req, res, next) => {
   res.sendFile("./tops.json", { root: __dirname });
 });
 
-app.get("/log", (req, res, next) => {
+app.post("/log", (req, res, next) => {
   const query = Array.from(
     new URL(req.url, req.protocol + "://" + req.headers.host + "/").searchParams
   );

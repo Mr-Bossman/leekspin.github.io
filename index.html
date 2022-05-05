@@ -351,7 +351,7 @@
         async function sendupdate() {
             if (name !== "") {
                 const url = '/log?' + name;
-                const board = await fetch(url)
+                const board = await fetch(url,{method: "POST"})
                     .catch(err => console.log(err));
                 console.log(name);
             }
