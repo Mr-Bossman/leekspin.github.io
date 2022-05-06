@@ -287,7 +287,7 @@
             document.getElementById("counter").innerHTML = "You've been spinning for " + days + ":" + hours + ":" + minutes + ":" + seconds + ".";
         }, 1000);
 
-        setInterval(sendupdate, 1000 * 60 * 3);
+        setInterval(sendupdate, 1000 * 60);
         sendupdate();
         var x = document.getElementById("polkka");
         var isPlaying = false;
@@ -340,7 +340,6 @@
 
         function resize(){
             const welcome = document.getElementById("welcome");
-            console.log("here")
             if (window.innerWidth < 660) {
                 welcome.innerHTML = "Welcome!";
             } else {
@@ -353,7 +352,6 @@
                 const url = '/log?' + name;
                 const board = await fetch(url,{method: "POST"})
                     .catch(err => console.log(err));
-                console.log(name);
             }
             const billboard = document.getElementById("board");
             while (billboard.childElementCount > 2) {
@@ -363,10 +361,11 @@
             const board = await fetch(url)
                 .then(res => res.json())
                 .catch(err => console.log(err));
-            for (const objs in board) {
+
+            for (const ind in board) {
                 let tmp = document.getElementById("tmp").cloneNode(true);
-                tmp.childNodes[1].innerHTML = objs;
-                tmp.childNodes[3].innerHTML = board[objs];
+                tmp.childNodes[1].innerHTML = board[ind].name;
+                tmp.childNodes[3].innerHTML = board[ind].time;
                 tmp.hidden = false;
                 billboard.appendChild(tmp);
             }
@@ -374,7 +373,7 @@
 
         function submit() {
             name = document.getElementById("nameinput").value;
-            if(name.length > 8 || name.replace(/[0-9]/gmi, '').length == 0){
+            if(name.length > 8 || name.replace(/[^a-z0-9.,\-_\!]/gmi, '').length < 1){
                 name = "";
                 alert("Invalid Name.")
             } else {
