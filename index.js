@@ -75,8 +75,12 @@ app.get("/", (req, res, next) => {
   res.sendFile("./index.html", { root: __dirname });
 });
 
-app.get("/image.gif", (req, res, next) => {
-  res.sendFile("./image.gif", { root: __dirname });
+app.get("/image0.gif", (req, res, next) => {
+  res.sendFile("./image0.gif", { root: __dirname });
+});
+
+app.get("/image1.gif", (req, res, next) => {
+  res.sendFile("./image1.gif", { root: __dirname });
 });
 
 app.get("/polkka.mp3", (req, res, next) => {

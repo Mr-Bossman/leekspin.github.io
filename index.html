@@ -134,6 +134,15 @@
             padding: 0.3rem 0.6rem 0.3rem 0.6rem;
         }
 
+        #pic {
+            font-size: calc(8px + 3 * ((100vw - 320px) / 700));
+            margin: 0;
+            display: table;
+            border-radius: 4px;
+            background-color: rgb(253, 158, 50);
+            padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+        }
+
         #board {
             width: 14rem;
             max-height: 20rem;
@@ -194,9 +203,20 @@
             opacity: 1;
         }
 
+        .welcomeH {
+            width: 100%;
+            height: 5rem;
+            left: 0px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         #welcome {
             margin-left: 0;
             padding: 0;
+            text-align: center;
         }
 
         #sub {
@@ -228,13 +248,15 @@
 
 <body onresize="resize()" onload="start()" onclick="Play">
     <div class="header">
-        <div class="padFL centerH" style="padding-left:1%;">
-            <div id="lead" onclick="hideboard()" onmouseover="showboard()" class="text white">Leaderboard</div>
-        </div>
-        <div class="centerH">
+        <div class="welcomeH">
             <div id="welcome" class="text white" style="font-size: 2rem;">Welcome to a better leekspin.com</div>
         </div>
-        <div class="padFL"></div>
+        <div class="centerH" style="padding-left:1%;">
+            <div id="lead" onclick="hideboard()" onmouseover="showboard()" class="text white">Leaderboard</div>
+        </div>
+        <div class="padFL centerH" style="padding-left:1%;">
+            <div id="pic" onclick="chimg()" class="text white">Swap Image</div>
+        </div>
 
     </div>
     <div id="board-wrap">
@@ -253,7 +275,7 @@
     </div>
     <div id="content">
 
-        <img id="image" src="/image.gif">
+        <img id="image" src="/image0.gif">
         <div id="counter" class="text">
             You've been spinning for 0:0:0:0.
         </div>
@@ -277,19 +299,31 @@
     <script>
         var timerstart = Date.now();
         var name = "";
+        var image = 0;
+        function chimg(){
+            image++;
+            if(image>1){
+                image=0;
+            }
+            let im = document.getElementById("image");
+            im.src="image"+image.toString()+".gif";
+            console.log(image)
+        }
         console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
-
+        function totime(times){
+            const days = Math.floor((times % (60 * 60 * 24 * 360)) / (60 * 60 * 24));
+            const hours = Math.floor((times % (60 * 60 * 24)) / (60 * 60));
+            const minutes = Math.floor((times % (60 * 60)) / 60);
+            const seconds = Math.floor((times % 60));
+            return days + ":" + hours + ":" + minutes + ":" + seconds;
+        }
         setInterval(function () {
-            var days = Math.floor(((Date.now() - timerstart) % (1000 * 60 * 60 * 24 * 360)) / (1000 * 60 * 60 * 24));
-            var hours = Math.floor(((Date.now() - timerstart) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor(((Date.now() - timerstart) % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor(((Date.now() - timerstart) % (1000 * 60)) / 1000);
-            document.getElementById("counter").innerHTML = "You've been spinning for " + days + ":" + hours + ":" + minutes + ":" + seconds + ".";
+            document.getElementById("counter").innerHTML = "You've been spinning for " + totime((Date.now() - timerstart)/1000)+ ".";
         }, 1000);
 
         setInterval(sendupdate, 1000 * 60);
         sendupdate();
-        var x = document.getElementById("polkka");
+        let x = document.getElementById("polkka");
         var isPlaying = false;
         x.onplaying = function () {
             isPlaying = true;
@@ -299,7 +333,7 @@
             isPlaying = false;
         }
 
-        var input = document.getElementById("nameinput");
+        let input = document.getElementById("nameinput");
         input.addEventListener("keyup", function (event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
@@ -365,7 +399,7 @@
             for (const ind in board) {
                 let tmp = document.getElementById("tmp").cloneNode(true);
                 tmp.childNodes[1].innerHTML = board[ind].name;
-                tmp.childNodes[3].innerHTML = board[ind].time;
+                tmp.childNodes[3].innerHTML = totime(board[ind].time);
                 tmp.hidden = false;
                 billboard.appendChild(tmp);
             }
