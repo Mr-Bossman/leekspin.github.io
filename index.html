@@ -1,420 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:type" content="leekspin.co">
-    <meta property="og:title" content="Better Leekspin" />
-    <meta property="og:description" content="A better version of leekspin.com" />
-    <meta name="description" content="A better version of leekspin.com" />
-    <meta property="og:url" content="leekspin.co" />
-    <meta property="og:image" content="https://leekspin.co/image.gif" />
-    <style>
-        html {
-            height: 100%;
-            width: 100%;
-        }
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:type" content="leekspin.co">
+	<meta property="og:title" content="Better Leekspin" />
+	<meta property="og:description" content="A better version of leekspin.com" />
+	<meta name="description" content="A better version of leekspin.com" />
+	<meta property="og:url" content="leekspin.co" />
+	<meta property="og:image" content="https://leekspin.co/image.gif" />
+	<style>
+		html {
+			height: 100%;
+			width: 100%;
+		}
 
-        body {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
+		body {
+			padding: 0;
+			margin: 0;
+			height: 100%;
+			width: 100%;
 
-            background-color: rgb(0, 0, 0);
-            position: fixed;
+			background-color: rgb(0, 0, 0);
+			position: fixed;
 
 
-        }
+		}
 
-        #footer {
-            position: absolute;
-            bottom: 0;
-            text-align: center;
-            height: 4rem;
-            padding-bottom: 0.5rem;
-            width: 100%;
-            z-index: -100;
-        }
+		#footer {
+			position: absolute;
+			bottom: 0;
+			text-align: center;
+			height: 4rem;
+			padding-bottom: 0.5rem;
+			width: 100%;
+			z-index: -100;
+		}
 
-        .header {
-            width: 100%;
-            height: 5rem;
-            background-color: rgb(218, 127, 52);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            flex-direction: row;
-        }
+		.header {
+			width: 100%;
+			height: 5rem;
+			background-color: rgb(218, 127, 52);
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			flex-direction: row;
+		}
 
-        #content {
-            margin-top: 3%;
-            text-align: center;
-            height: 80%;
-            width: 100%;
-        }
+		#content {
+			margin-top: 3%;
+			text-align: center;
+			height: 80%;
+			width: 100%;
+		}
 
-        #footerlink:visited,
-        #footerlink:link,
-        #footerlink:active,
-        #footerlink:hover {
-            text-decoration: none;
-            color: gray;
+		#footerlink:visited,
+		#footerlink:link,
+		#footerlink:active,
+		#footerlink:hover {
+			text-decoration: none;
+			color: gray;
 
-        }
+		}
 
-        .text {
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: lighter;
-            cursor: default;
-        }
+		.text {
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: lighter;
+			cursor: default;
+		}
 
-        .header .centerH {
-            position: relative;
-            align-self: center;
-            padding-left: 2%;
-        }
+		.header .centerH {
+			position: relative;
+			align-self: center;
+			padding-left: 2%;
+		}
 
-        #counter {
-            background-color: rgb(0, 0, 0);
-            text-align: center;
-            top: 50%;
-            font-size: 200%;
-            padding: 0;
-            padding-top: 0.2rem;
-            color: white
-        }
+		#counter {
+			background-color: rgb(0, 0, 0);
+			text-align: center;
+			top: 50%;
+			font-size: 200%;
+			padding: 0;
+			padding-top: 0.2rem;
+			color: white
+		}
 
-        #footerlink2:visited,
-        #footerlink2:link,
-        #footerlink2:active,
-        #footerlink2:hover {
-            text-decoration: none;
-            color: gray;
-            font-size: 150%;
+		#footerlink2:visited,
+		#footerlink2:link,
+		#footerlink2:active,
+		#footerlink2:hover {
+			text-decoration: none;
+			color: gray;
+			font-size: 150%;
 
-        }
+		}
 
-        #play {
-            color: gray;
-            border-radius: 7px;
-            border: 2px solid grey;
-            color: white;
-            text-align: center;
-            padding: .5% 2%;
-            width: 7rem;
-            margin: auto;
-            display: table;
-        }
+		#play {
+			color: gray;
+			border-radius: 7px;
+			border: 2px solid grey;
+			color: white;
+			text-align: center;
+			padding: .5% 2%;
+			width: 7rem;
+			margin: auto;
+			display: table;
+		}
 
-        #about-hide {
-            padding-top: 0.4rem;
-            background-color: rgb(0, 0, 0);
-        }
+		#about-hide {
+			padding-top: 0.4rem;
+			background-color: rgb(0, 0, 0);
+		}
 
-        #image {
-            max-width: 100%;
-            width: auto;
-            height: 70%;
-            object-fit: contain;
+		#image {
+			max-width: 100%;
+			width: auto;
+			height: 70%;
+			object-fit: contain;
 
-        }
+		}
 
-        .padFL {
-            flex: 1;
-        }
+		.padFL {
+			flex: 1;
+		}
 
-        #lead {
-            font-size: calc(8px + 6 * ((100vw - 320px) / 600));
-            margin: 0;
-            display: table;
-            border-radius: 4px;
-            background-color: rgb(253, 158, 50);
-            padding: 0.3rem 0.6rem 0.3rem 0.6rem;
-        }
+		#lead {
+			font-size: calc(8px + 6 * ((100vw - 320px) / 600));
+			margin: 0;
+			display: table;
+			border-radius: 4px;
+			background-color: rgb(253, 158, 50);
+			padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+		}
 
-        #pic {
-            font-size: calc(8px + 3 * ((100vw - 320px) / 700));
-            margin: 0;
-            display: table;
-            border-radius: 4px;
-            background-color: rgb(253, 158, 50);
-            padding: 0.3rem 0.6rem 0.3rem 0.6rem;
-        }
+		#pic {
+			font-size: calc(8px + 3 * ((100vw - 320px) / 700));
+			margin: 0;
+			display: table;
+			border-radius: 4px;
+			background-color: rgb(253, 158, 50);
+			padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+		}
 
-        #board {
-            width: 14rem;
-            max-height: 20rem;
-            text-align: center;
-            font-size: 1.3rem;
-            display: none;
-            padding: 0.2rem;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            position: relative;
-        }
+		#board {
+			width: 14rem;
+			max-height: 20rem;
+			text-align: center;
+			font-size: 1.3rem;
+			display: none;
+			padding: 0.2rem;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			position: relative;
+		}
 
-        #board::-webkit-scrollbar {
-            width: 0.2rem;
-        }
+		#board::-webkit-scrollbar {
+			width: 0.2rem;
+		}
 
-        #board::-webkit-scrollbar-track {
-            margin-top: 1%;
-        }
+		#board::-webkit-scrollbar-track {
+			margin-top: 1%;
+		}
 
-        #board::-webkit-scrollbar-thumb {
-            background-color: rgb(124, 67, 34);
-            border-radius: 10px;
-        }
+		#board::-webkit-scrollbar-thumb {
+			background-color: rgb(124, 67, 34);
+			border-radius: 10px;
+		}
 
-        .split {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 1%;
-        }
+		.split {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			padding: 1%;
+		}
 
-        #nameinput {
-            width: 5rem;
-            border-radius: 2px;
-            border: none;
-            background-color: rgb(253, 158, 50);
-            height: 1.2rem;
-            cursor: auto;
-        }
+		#nameinput {
+			width: 5rem;
+			border-radius: 2px;
+			border: none;
+			background-color: rgb(253, 158, 50);
+			height: 1.2rem;
+			cursor: auto;
+		}
 
-        #nameinput:focus {
-            outline: none;
-        }
+		#nameinput:focus {
+			outline: none;
+		}
 
-        #nameinput::placeholder {
-            color: lightgray;
-            opacity: 1;
-        }
+		#nameinput::placeholder {
+			color: lightgray;
+			opacity: 1;
+		}
 
-        #nameinput:-ms-input-placeholder {
-            color: lightgray;
-            opacity: 1;
-        }
+		#nameinput:-ms-input-placeholder {
+			color: lightgray;
+			opacity: 1;
+		}
 
-        #nameinput::-ms-input-placeholder {
-            color: lightgray;
-            opacity: 1;
-        }
+		#nameinput::-ms-input-placeholder {
+			color: lightgray;
+			opacity: 1;
+		}
 
-        .welcomeH {
-            width: 100%;
-            height: 5rem;
-            left: 0px;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+		.welcomeH {
+			width: 100%;
+			height: 5rem;
+			left: 0px;
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 
-        #welcome {
-            margin-left: 0;
-            padding: 0;
-            text-align: center;
-        }
+		#welcome {
+			margin-left: 0;
+			padding: 0;
+			text-align: center;
+		}
 
-        #sub {
-            background-color: rgb(252, 141, 77);
-            border-radius: 3px;
-            padding: 1% 3% 1% 3%;
-            margin-right: .4rem;
-            font-size: 1rem;
-        }
+		#sub {
+			background-color: rgb(252, 141, 77);
+			border-radius: 3px;
+			padding: 1% 3% 1% 3%;
+			margin-right: .4rem;
+			font-size: 1rem;
+		}
 
-        #board-wrap {
-            display: none;
-            position: absolute;
-            padding: 0.2rem;
-            margin-top: 1rem;
-            margin-left: 1rem;
-            border-radius: 4px;
-            background-color: rgb(218, 127, 52);
-        }
+		#board-wrap {
+			display: none;
+			position: absolute;
+			padding: 0.2rem;
+			margin-top: 1rem;
+			margin-left: 1rem;
+			border-radius: 4px;
+			background-color: rgb(218, 127, 52);
+		}
 
-        .white {
-            color: white;
-        }
-    </style>
-    <title>LEEKSPIN.CO</title>
-    <link rel="icon" href="/icon.png">
+		.white {
+			color: white;
+		}
+	</style>
+	<title>LEEKSPIN.CO</title>
+	<link rel="icon" href="/icon.png">
 
 </head>
 
 <body onresize="resize()" onload="start()" onclick="Play">
-    <div class="header">
-        <div class="welcomeH">
-            <div id="welcome" class="text white" style="font-size: 2rem;">Welcome to a better leekspin.com</div>
-        </div>
-        <div class="centerH" style="padding-left:1%;">
-            <div id="lead" onclick="hideboard()" onmouseover="showboard()" class="text white">Leaderboard</div>
-        </div>
-        <div class="padFL centerH" style="padding-left:1%;">
-            <div id="pic" onclick="chimg()" class="text white">Swap Image</div>
-        </div>
+	<div class="header">
+		<div class="welcomeH">
+			<div id="welcome" class="text white" style="font-size: 2rem;">Welcome to a better leekspin.com</div>
+		</div>
+		<div class="centerH" style="padding-left:1%;">
+			<div id="lead" onclick="hideboard()" onmouseover="showboard()" class="text white">Leaderboard</div>
+		</div>
+		<div class="padFL centerH" style="padding-left:1%;">
+			<div id="pic" onclick="chimg()" class="text white">Swap Image</div>
+		</div>
 
-    </div>
-    <div id="board-wrap">
-        <div id="board" class="text">
-            <div class="split">
-                <input id="nameinput" class="text  white" type="text" id="name" placeholder="Name:"
-                    maxlength="8"></input>
-                <!--max length is held on server-->
-                <div id="sub" class="text  white" onclick="submit()">Submit</div>
-            </div>
-            <div id="tmp" class="split" hidden>
-                <div class="white" style="padding-right: 2%;"></div>
-                <div class="white"></div>
-            </div>
-        </div>
-    </div>
-    <div id="content">
+	</div>
+	<div id="board-wrap">
+		<div id="board" class="text">
+			<div class="split">
+				<input id="nameinput" class="text white" type="text" id="name" placeholder="Name:"
+					maxlength="8"></input>
+				<!--max length is held on server-->
+				<div id="sub" class="text white" onclick="submit()">Submit</div>
+			</div>
+			<div id="tmp" class="split" hidden>
+				<div class="white" style="padding-right: 2%;"></div>
+				<div class="white"></div>
+			</div>
+		</div>
+	</div>
+	<div id="content">
 
-        <img id="image" src="/image0.gif">
-        <div id="counter" class="text">
-            You've been spinning for 0:0:0:0.
-        </div>
+		<img id="image" src="/image0.gif">
+		<div id="counter" class="text">
+			You've been spinning for 0:0:0:0.
+		</div>
 
-        <audio id="polkka" loop="loop" autoplay>
-            <source src="/polkka.ogg" type="audio/ogg">
-            <source src="/polkka.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <div id="about-hide">
-            <div id="play" onclick="togglePlay()" class="text">Toggle Audio</div>
-        </div>
+		<audio id="polkka" loop="loop" autoplay>
+			<source src="/polkka.ogg" type="audio/ogg">
+			<source src="/polkka.mp3" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
+		<div id="about-hide">
+			<div id="play" onclick="togglePlay()" class="text">Toggle Audio</div>
+		</div>
 
-        <div id="footer">
-            <a href="/info.txt" id="footerlink2" class="text">About</a>
-            <br>
-            <a href="https://jachan.dev" id="footerlink" class="text">Visit Jachan.dev</a>
-        </div>
-    </div>
+		<div id="footer">
+			<a href="/info.txt" id="footerlink2" class="text">About</a>
+			<br>
+			<a href="https://jachan.dev" id="footerlink" class="text">Visit Jachan.dev</a>
+		</div>
+	</div>
 
-    <script>
-        var timerstart = Date.now();
-        var name = "";
-        var image = 0;
-        function chimg(){
-            image++;
-            if(image>1){
-                image=0;
-            }
-            let im = document.getElementById("image");
-            im.src="image"+image.toString()+".gif";
-            console.log(image)
-        }
-        console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
-        function totime(times){
-            const days = Math.floor((times % (60 * 60 * 24 * 360)) / (60 * 60 * 24));
-            const hours = Math.floor((times % (60 * 60 * 24)) / (60 * 60));
-            const minutes = Math.floor((times % (60 * 60)) / 60);
-            const seconds = Math.floor((times % 60));
-            return days + ":" + hours + ":" + minutes + ":" + seconds;
-        }
-        setInterval(function () {
-            document.getElementById("counter").innerHTML = "You've been spinning for " + totime((Date.now() - timerstart)/1000)+ ".";
-        }, 1000);
+	<script>
+		var timerstart = Date.now();
+		var name = "";
+		var image = 0;
+		function chimg() {
+			image++;
+			if (image > 1) {
+				image = 0;
+			}
+			let im = document.getElementById("image");
+			im.src = "image" + image.toString() + ".gif";
+			console.log(image)
+		}
+		console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
+		function totime(times) {
+			const days = Math.floor((times % (60 * 60 * 24 * 360)) / (60 * 60 * 24));
+			const hours = Math.floor((times % (60 * 60 * 24)) / (60 * 60));
+			const minutes = Math.floor((times % (60 * 60)) / 60);
+			const seconds = Math.floor((times % 60));
+			return days + ":" + hours + ":" + minutes + ":" + seconds;
+		}
+		setInterval(function () {
+			document.getElementById("counter").innerHTML = "You've been spinning for " + totime((Date.now() - timerstart) / 1000) + ".";
+		}, 1000);
 
-        setInterval(sendupdate, 1000 * 60);
-        sendupdate();
-        let x = document.getElementById("polkka");
-        var isPlaying = false;
-        x.onplaying = function () {
-            isPlaying = true;
-        }
+		setInterval(sendupdate, 1000 * 60);
+		sendupdate();
+		let x = document.getElementById("polkka");
+		var isPlaying = false;
+		x.onplaying = function () {
+			isPlaying = true;
+		}
 
-        x.onpause = function () {
-            isPlaying = false;
-        }
+		x.onpause = function () {
+			isPlaying = false;
+		}
 
-        let input = document.getElementById("nameinput");
-        input.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("sub").click();
-            }
-        });
+		let input = document.getElementById("nameinput");
+		input.addEventListener("keyup", function (event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				document.getElementById("sub").click();
+			}
+		});
 
-        function Play() {
-            document.getElementsByTagName('body')[0].removeAttribute("onclick");
-            x.play();
-        }
+		function Play() {
+			document.getElementsByTagName('body')[0].removeAttribute("onclick");
+			x.play();
+		}
 
-        function togglePlay() {
-            isPlaying ? x.pause() : x.play();
-        }
+		function togglePlay() {
+			isPlaying ? x.pause() : x.play();
+		}
 
-        function hideboard() {
-            if (document.getElementById("board").style.display == "none") {
-                document.getElementById("board").style.display = "block";
-                document.getElementById("board-wrap").style.display = "block";
+		function hideboard() {
+			if (document.getElementById("board").style.display == "none") {
+				document.getElementById("board").style.display = "block";
+				document.getElementById("board-wrap").style.display = "block";
 
-                sendupdate();
-            } else {
-                document.getElementById("board").style.display = "none";
-                document.getElementById("board-wrap").style.display = "none";
-            }
+				sendupdate();
+			} else {
+				document.getElementById("board").style.display = "none";
+				document.getElementById("board-wrap").style.display = "none";
+			}
 
-        }
+		}
 
-        function showboard() {
-            document.getElementById("board-wrap").style.display = "block";
-            document.getElementById("board").style.display = "block";
-            sendupdate();
-        }
-        function start(){
-            resize();
-        }
+		function showboard() {
+			document.getElementById("board-wrap").style.display = "block";
+			document.getElementById("board").style.display = "block";
+			sendupdate();
+		}
+		function start() {
+			resize();
+		}
 
-        function resize(){
-            const welcome = document.getElementById("welcome");
-            if (window.innerWidth < 660) {
-                welcome.innerHTML = "Welcome!";
-            } else {
-                welcome.innerHTML = "Welcome to a better leekspin.com";
-            }
-        }
+		function resize() {
+			const welcome = document.getElementById("welcome");
+			if (window.innerWidth < 660) {
+				welcome.innerHTML = "Welcome!";
+			} else {
+				welcome.innerHTML = "Welcome to a better leekspin.com";
+			}
+		}
 
-        async function sendupdate() {
-            if (name !== "") {
-                const url = '/log?' + name;
-                const board = await fetch(url,{method: "POST"})
-                    .catch(err => console.log(err));
-            }
-            const billboard = document.getElementById("board");
-            while (billboard.childElementCount > 2) {
-                billboard.removeChild(billboard.lastElementChild);
-            }
-            const url = '/tops';
-            const board = await fetch(url)
-                .then(res => res.json())
-                .catch(err => console.log(err));
+		async function sendupdate() {
+			if (name !== "") {
+				const url = '/log?' + name;
+				const board = await fetch(url, { method: "POST" })
+					.catch(err => console.log(err));
+			}
+			const billboard = document.getElementById("board");
+			while (billboard.childElementCount > 2) {
+				billboard.removeChild(billboard.lastElementChild);
+			}
+			const url = '/tops';
+			const board = await fetch(url)
+				.then(res => res.json())
+				.catch(err => console.log(err));
 
-            for (const ind in board) {
-                let tmp = document.getElementById("tmp").cloneNode(true);
-                tmp.childNodes[1].innerHTML = board[ind].name;
-                tmp.childNodes[3].innerHTML = totime(board[ind].time);
-                tmp.hidden = false;
-                billboard.appendChild(tmp);
-            }
-        }
+			for (const ind in board) {
+				let tmp = document.getElementById("tmp").cloneNode(true);
+				tmp.childNodes[1].innerHTML = board[ind].name;
+				tmp.childNodes[3].innerHTML = totime(board[ind].time);
+				tmp.hidden = false;
+				billboard.appendChild(tmp);
+			}
+		}
 
-        function submit() {
-            name = document.getElementById("nameinput").value;
-            if(name.length > 8 || name.replace(/[^a-z0-9.,\-_\!]/gmi, '').length < 1){
-                name = "";
-                alert("Invalid Name.")
-            } else {
-                sendupdate();
-            }
-        }
-    </script>
+		function submit() {
+			name = document.getElementById("nameinput").value;
+			if (name.length > 8 || name.replace(/[^a-z0-9.,\-_\!]/gmi, '').length < 1) {
+				name = "";
+				alert("Invalid Name.")
+			} else {
+				sendupdate();
+			}
+		}
+	</script>
 </body>
-
 </html>
