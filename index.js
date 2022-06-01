@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-var fs = require("fs");
+const fs = require("fs");
+const request = require("request");
 
+var sitemap = ["tops","","info.txt","icon.png"];
 var DB = JSON.parse(fs.readFileSync("tops.json", "utf8"));
 var connected = {};
 
@@ -24,8 +26,11 @@ function sort_array(obj) {
 	return obj.slice(0, 100);
 }
 
-app.get("/tops", (req, res, next) => {
-	res.sendFile("./tops.json", { root: __dirname });
+fs.readdirSync('./assets/').forEach(file => {
+	app.get('/' + file, (req, res, next) => {
+		res.sendFile('/assets/' + file, { root: __dirname });
+	});
+	sitemap.push(file);
 });
 
 app.post("/log", (req, res, next) => {
@@ -75,28 +80,40 @@ app.get("/", (req, res, next) => {
 	res.sendFile("./index.html", { root: __dirname });
 });
 
-app.get("/image0.gif", (req, res, next) => {
-	res.sendFile("./image0.gif", { root: __dirname });
-});
-
-app.get("/image1.gif", (req, res, next) => {
-	res.sendFile("./image1.gif", { root: __dirname });
-});
-
-app.get("/polkka.mp3", (req, res, next) => {
-	res.sendFile("./polkka.mp3");
+app.get("/tops", (req, res, next) => {
+	res.sendFile("./tops.json", { root: __dirname });
 });
 
 app.get("/info.txt", (req, res, next) => {
 	res.sendFile("./info.txt", { root: __dirname });
 });
 
-app.get("/polkka.ogg", (req, res, next) => {
-	res.sendFile("./polkka.ogg", { root: __dirname });
-});
-
 app.get("/icon.png", (req, res, next) => {
 	res.sendFile("./icon.png", { root: __dirname });
 });
 
+app.get("/robots.txt", (req, res, next) => {
+	res.send("User-agent: *\nAllow: /\nSitemap: https://leekspin.co/sitemap.xml");
+	res.status(200);
+	res.end();
+});
+
+function genSiteMap(){
+	const lastmod = new Date(Date.now()).toISOString().split("T")[0];
+	let response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
+	sitemap.forEach(function (URLs){
+		response+="<url>\n<loc>https://leekspin.co/"+URLs+"</loc>\n";
+		response+="<lastmod>"+lastmod+"</lastmod>\n</url>\n"
+	});
+	response+="</urlset>"
+	app.get("/sitemap.xml", (req, res, next) => {
+		res.send(response);
+		res.status(200);
+		res.end();
+	});
+}
+
+genSiteMap();
 app.listen(8080);
+request.get("http://www.google.com/ping?sitemap=https://leekspin.co/sitemap.xml");
+request.get("http://www.bing.com/ping?sitemap=https://leekspin.co/sitemap.xml");
