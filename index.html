@@ -285,7 +285,7 @@
 
 </head>
 
-<body onresize="resize()" onload="start()" onclick="Play">
+<body onresize="resize()" onload="resize()" onclick="Play">
 	<div class="header">
 		<div class="padFL centerH" style="padding-left:1%;">
 			<div id="lead" onclick="hideboard()" onmouseover="showboard()" class="text white">Leaderboard</div>
@@ -341,8 +341,9 @@
 	</div>
 
 	<script>
-		const imageM=2;
+		const imageM = 2;
 		const audioM = 1;
+		const UID = Array.from({length: 40}, () => String.fromCharCode(Math.floor(Math.random() * 26) + 65)).join('');
 		let timerstart = Date.now();
 		let name = "";
 		let image = 0;
@@ -374,8 +375,6 @@
 			let au = document.getElementById("polkka");
 			au.src = "polkka" + audio.toString() + ".mp3";
 		}
-
-		console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
 
 		function totime(times) {
 			const days = Math.floor((times % (60 * 60 * 24 * 360)) / (60 * 60 * 24));
@@ -413,10 +412,6 @@
 			sendupdate();
 		}
 
-		function start() {
-			resize();
-		}
-
 		function resize() {
 			const welcome = document.getElementById("welcome");
 			if (window.innerWidth < 660) {
@@ -428,8 +423,12 @@
 
 		async function sendupdate() {
 			if (name !== "") {
-				const url = '/log?' + name;
-				const board = await fetch(url, { method: "POST" })
+				const url = '/log?n=' + name + '&uid=' + UID;
+				await fetch(url, { method: "POST" })
+					.catch(err => console.log(err));
+			} else {
+				const url = '/log?uid=' + UID;
+				await fetch(url, { method: "POST" })
 					.catch(err => console.log(err));
 			}
 			const billboard = document.getElementById("board");
@@ -466,6 +465,7 @@
 
 		setInterval(sendupdate, 1000 * 60);
 		sendupdate();
+		console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
 
 		x.onplaying = function () {
 			isPlaying = true;

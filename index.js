@@ -34,43 +34,42 @@ fs.readdirSync('./assets/').forEach(file => {
 });
 
 app.post("/log", (req, res, next) => {
-	const query = Array.from(
-		new URL(req.url, req.protocol + "://" + req.headers.host + "/").searchParams
-	);
-	if (query[0] !== undefined) {
-		const common = query[0][0].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
-		if (common.length < 1) {
+	const uid = req.query['uid'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
+	if(req.query['n']){
+		const username = req.query['n'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
+		if(uid in connected){
+			connected[username] = connected[uid];
+			delete connected[uid];
+		}
+		if (username.length < 1 || !(username in connected)) {
 			res.status(400);
 			res.end();
 			return;
 		}
-		if (common in connected) {
-			const time = Math.round((Date.now() - connected[common][1]) / 1000);
-			connected[common] = [Date.now(), connected[common][1]];
-			if (
-				time >= DB[DB.length - 1] ||
-				DB[DB.length - 1] === undefined ||
-				DB.length < 100
-			) {
-				// fill top 100
-				let tmp = DB;
-				let cur = tmp.find(({ name }) => name === common)
-				if (cur === undefined || cur.time < time) {
-					let ind = tmp.indexOf(cur);
-					if (ind === -1)
-						tmp.push({ name: common, time: time });
-					else
-						tmp[ind].time = time;
-					tmp = sort_array(tmp);
-					if (tmp.find(({ name }) => name === common) !== undefined) {
-						DB = tmp;
-						fs.writeFileSync("tops.json", JSON.stringify(DB));
-					}
+		const time = Math.round((Date.now() - connected[username][1]) / 1000);
+		connected[username] = [Date.now(), connected[username][1]];
+		if (time >= DB[DB.length - 1] || DB.length < 100) {
+			// fill top 100
+			let tmp = DB;
+			let cur = tmp.find(({ name }) => name === username)
+			if (cur === undefined || cur.time < time) {
+				let ind = tmp.indexOf(cur);
+				if (ind === -1)
+					tmp.push({ name: username, time: time });
+				else
+					tmp[ind].time = time;
+				tmp = sort_array(tmp);
+				if (tmp.find(({ name }) => name === username) !== undefined) {
+					DB = tmp;
+					fs.writeFileSync("tops.json", JSON.stringify(DB));
 				}
 			}
-		} else {
-			connected[common] = [Date.now(), Date.now()];
 		}
+	} else {
+		if(uid in connected)
+			connected[uid] = [Date.now(), connected[uid][1]];
+		else
+			connected[uid] = [Date.now(), Date.now()];
 	}
 	res.status(200);
 	res.end();
