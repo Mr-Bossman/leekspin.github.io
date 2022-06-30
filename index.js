@@ -10,14 +10,14 @@ var connected = {};
 function clean() {
 	const keylist = Object.keys(connected);
 	for (const key of keylist) {
-		if (Date.now() - connected[key][0] > 1000 * 60 * 3) {
+		if (Date.now() - connected[key].time[0] > 1000 * 60 * 3) {
 			// del after 3 min
 			delete connected[key];
 		}
 	}
 }
 
-setInterval(clean, 1000 * 60 * 2); //5 min
+setInterval(clean, 1000 * 60 * 2); //2 min
 
 function sort_array(obj) {
 	obj.sort((a, b) => {
@@ -27,33 +27,58 @@ function sort_array(obj) {
 }
 
 fs.readdirSync('./assets/').forEach(file => {
-	app.get('/' + file, (req, res, next) => {
+	app.get('/' + file, (req, res) => {
 		res.sendFile('/assets/' + file, { root: __dirname });
 	});
 	sitemap.push(file);
 });
 
-app.post("/log", (req, res, next) => {
+app.post("/log", (req, res) => {
+	if(!req.query['uid']) {
+		res.status(400);
+		res.end();
+		return;
+	}
 	const uid = req.query['uid'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
+	if (uid.length < 1) {
+		res.status(400);
+		res.end();
+		return;
+	}
+
 	if(req.query['n']){
 		const username = req.query['n'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
-		if(uid in connected){
-			connected[username] = connected[uid];
-			delete connected[uid];
-		}
-		if (username.length < 1 || !(username in connected)) {
+		if (username.length < 1) {
 			res.status(400);
 			res.end();
 			return;
 		}
-		const time = Math.round((Date.now() - connected[username][1]) / 1000);
-		connected[username] = [Date.now(), connected[username][1]];
+
+		if(uid in connected)
+			connected[uid].time = [Date.now(),  connected[uid].time[1]];
+		else
+			connected[uid] = {name:username,time:[Date.now(), Date.now()]};
+
+		const time = Math.round((Date.now() - connected[uid].time[1]) / 1000);
+
+		if(uid in connected){
+			if (connected[uid].name && connected[uid].name != username){
+				let tmps = DB;
+				const ind = tmps.findIndex(({ name }) => name === connected[uid].name)
+				if(ind !== -1 && time >= tmps[ind].time) {
+					tmps.splice(ind,1);
+					DB = tmps;
+					fs.writeFileSync("tops.json", JSON.stringify(DB));
+				}
+			}
+			connected[uid].name = username;
+		}
+
 		if (time >= DB[DB.length - 1] || DB.length < 100) {
 			// fill top 100
 			let tmp = DB;
-			let cur = tmp.find(({ name }) => name === username)
-			if (cur === undefined || cur.time < time) {
-				let ind = tmp.indexOf(cur);
+			const ind = tmp.findIndex(({ name }) => name === username)
+			if (ind === -1 || tmp[ind].time < time) {
 				if (ind === -1)
 					tmp.push({ name: username, time: time });
 				else
@@ -67,31 +92,31 @@ app.post("/log", (req, res, next) => {
 		}
 	} else {
 		if(uid in connected)
-			connected[uid] = [Date.now(), connected[uid][1]];
+			connected[uid].time = [Date.now(), connected[uid].time[1]];
 		else
-			connected[uid] = [Date.now(), Date.now()];
+			connected[uid] = {name:"",time:[Date.now(), Date.now()]};
 	}
 	res.status(200);
 	res.end();
 });
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
 	res.sendFile("./index.html", { root: __dirname });
 });
 
-app.get("/tops", (req, res, next) => {
+app.get("/tops", (req, res) => {
 	res.sendFile("./tops.json", { root: __dirname });
 });
 
-app.get("/info.txt", (req, res, next) => {
+app.get("/info.txt", (req, res) => {
 	res.sendFile("./info.txt", { root: __dirname });
 });
 
-app.get("/icon.png", (req, res, next) => {
+app.get("/icon.png", (req, res) => {
 	res.sendFile("./icon.png", { root: __dirname });
 });
 
-app.get("/robots.txt", (req, res, next) => {
+app.get("/robots.txt", (req, res) => {
 	res.send("User-agent: *\nAllow: /\nSitemap: https://leekspin.co/sitemap.xml");
 	res.status(200);
 	res.end();
@@ -105,7 +130,7 @@ function genSiteMap(){
 		response+="<lastmod>"+lastmod+"</lastmod>\n</url>\n"
 	});
 	response+="</urlset>"
-	app.get("/sitemap.xml", (req, res, next) => {
+	app.get("/sitemap.xml", (req, res) => {
 		res.send(response);
 		res.status(200);
 		res.end();
