@@ -74,7 +74,7 @@ app.post("/log", (req, res) => {
 			connected[uid].name = username;
 		}
 
-		if (time >= DB[DB.length - 1] || DB.length < 100) {
+		if (time >= DB[DB.length - 1].time || DB.length < 100) {
 			// fill top 100
 			let tmp = DB;
 			const ind = tmp.findIndex(({ name }) => name === username)
