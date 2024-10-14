@@ -369,13 +369,10 @@
 		const imageM = 2;
 		const audioM = 2;
 		const UID = Array.from({length: 40}, () => String.fromCharCode(Math.floor(Math.random() * 26) + 65)).join('');
-		const timerstart = Date.now();
 		let name = "";
 		let image = 0;
 		let audio = 0
 		let isPlaying = false;
-		let input = document.getElementById("nameinput");
-		let x = document.getElementById("polkka");
 
 		function chimg(change) {
 			image+=change;
@@ -410,12 +407,14 @@
 		}
 
 		function Play() {
+			const audio_elem = document.getElementById("polkka");
 			document.getElementsByTagName('body')[0].removeAttribute("onclick");
-			x.play();
+			audio_elem.play();
 		}
 
 		function togglePlay() {
-			isPlaying ? x.pause() : x.play();
+			const audio_elem = document.getElementById("polkka");
+			isPlaying ? audio_elem.pause() : audio_elem.play();
 		}
 
 		function hideboard() {
@@ -498,28 +497,36 @@
 			}
 		}
 
-		setInterval(function () {
-			document.getElementById("counter").innerHTML = "You've been spinning for " + totime((Date.now() - timerstart) / 1000) + ".";
-		}, 1000);
+		function main() {
+			const timerstart = Date.now();
+			const audio_elem = document.getElementById("polkka");
+			const input = document.getElementById("nameinput");
 
-		setInterval(sendupdate, 1000 * 60);
-		sendupdate();
-		console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
+			setInterval(function () {
+				document.getElementById("counter").innerHTML = "You've been spinning for " + totime((Date.now() - timerstart) / 1000) + ".";
+			}, 1000);
 
-		x.onplaying = function () {
-			isPlaying = true;
-		}
+			setInterval(sendupdate, 1000 * 60);
+			sendupdate();
+			console.log("Came up with this in 5 minutes so not the best atleast it doesnt use flash ");
 
-		x.onpause = function () {
-			isPlaying = false;
-		}
-
-		input.addEventListener("keyup", function (event) {
-			if (event.keyCode === 13) {
-				event.preventDefault();
-				document.getElementById("sub").click();
+			audio_elem.onplaying = function () {
+				isPlaying = true;
 			}
-		});
+
+			audio_elem.onpause = function () {
+				isPlaying = false;
+			}
+
+			input.addEventListener("keyup", function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					document.getElementById("sub").click();
+				}
+			});
+		}
+
+		main();
 	</script>
 </body>
 </html>
