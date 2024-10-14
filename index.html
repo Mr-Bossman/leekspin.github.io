@@ -13,10 +13,10 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6NQ7K7KC64"></script>
 	<script>
-  		window.dataLayer = window.dataLayer || [];
-  		function gtag(){dataLayer.push(arguments);}
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
-  		gtag('config', 'G-6NQ7K7KC64');
+		gtag('config', 'G-6NQ7K7KC64');
 	</script>
 	<style>
 		:root {
@@ -144,7 +144,7 @@
 		}
 
 		#imgwr2 {
-			width:100%;
+			width: 100%;
 			height: 70%;
 		}
 
@@ -153,29 +153,35 @@
 			display: inline-flex;
 		}
 
-		#imgL,#imgR,#audL,#audR {
+		#imgL,
+		#imgR,
+		#audL,
+		#audR {
 			flex: 1;
 			align-self: center;
 			font-size: 3rem;
-			font-weight:900;
+			font-weight: 900;
 
 		}
 
-		#imgL::before,#imgL {
+		#imgL::before,
+		#imgL {
 			font-family: "Font Awesome 5 Free";
 			content: "\f104";
 			text-align: right;
 			padding-right: 1rem;
 		}
 
-		#imgR::before,#imgR {
+		#imgR::before,
+		#imgR {
 			font-family: "Font Awesome 5 Free";
 			content: "\f105";
 			text-align: left;
 			padding-left: 1rem;
 		}
 
-		#audL::before,#audL {
+		#audL::before,
+		#audL {
 			font-family: "Font Awesome 5 Free";
 			content: "\f104";
 			text-align: right;
@@ -183,13 +189,15 @@
 			font-size: 2rem;
 		}
 
-		#audR::before,#audR {
+		#audR::before,
+		#audR {
 			font-family: "Font Awesome 5 Free";
 			content: "\f105";
 			text-align: left;
 			padding-left: 0.2rem;
 			font-size: 2rem;
 		}
+
 		.padFL {
 			flex: 1;
 		}
@@ -323,8 +331,7 @@
 	<div id="board-wrap">
 		<div id="board" class="text">
 			<div class="split">
-				<input id="nameinput" class="text white" type="text" id="name" placeholder="Name:"
-					maxlength="8"></input>
+				<input id="nameinput" class="text white" type="text" id="name" placeholder="Name:" maxlength="8"></input>
 				<!--max length is held on server-->
 				<div id="sub" class="text white" onclick="submit()">Submit</div>
 			</div>
@@ -337,9 +344,9 @@
 	<div id="content">
 		<div id="imgwr2" class="text white">
 			<div id="imgwrap">
-			<div id="imgL" onclick="chimg(-1)"></div>
-			<img id="image" src="/image0.gif">
-			<div id="imgR"onclick="chimg(1)"></div>
+				<div id="imgL" onclick="chimg(-1)"></div>
+				<img id="image" src="/image0.gif">
+				<div id="imgR" onclick="chimg(1)"></div>
 			</div>
 		</div>
 		<div id="counter" class="text white">
@@ -354,7 +361,7 @@
 			<div id="audwr" class="text white">
 				<div id="audL" onclick="chaud(-1)"></div>
 				<div id="play" onclick="togglePlay()" class="text">Toggle Audio</div>
-				<div id="audR"onclick="chaud(1)"></div>
+				<div id="audR" onclick="chaud(1)"></div>
 			</div>
 		</div>
 
@@ -368,14 +375,14 @@
 	<script>
 		const imageM = 2;
 		const audioM = 2;
-		const UID = Array.from({length: 40}, () => String.fromCharCode(Math.floor(Math.random() * 26) + 65)).join('');
+		const UID = Array.from({ length: 40 }, () => String.fromCharCode(Math.floor(Math.random() * 26) + 65)).join('');
 		let name = "";
 		let image = 0;
 		let audio = 0
 		let isPlaying = false;
 
 		function chimg(change) {
-			image+=change;
+			image += change;
 			if (image > imageM) {
 				image = 0;
 			}
@@ -387,7 +394,7 @@
 		}
 
 		function chaud(change) {
-			audio+=change;
+			audio += change;
 			if (audio > audioM) {
 				audio = 0;
 			}

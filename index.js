@@ -3,7 +3,7 @@ const app = express();
 const fs = require("fs");
 const request = require("request");
 
-var sitemap = ["tops","","info.txt","icon.png"];
+var sitemap = ["tops", "", "info.txt", "icon.png"];
 var DB = JSON.parse(fs.readFileSync("tops.json", "utf8"));
 const banned_words = JSON.parse(fs.readFileSync("banned_words.json", "utf8"));
 var connected = {};
@@ -27,28 +27,31 @@ function sort_array(obj) {
 	return obj.slice(0, 100);
 }
 
-fs.readdirSync('./assets/').forEach(file => {
-	app.get('/' + file, (req, res) => {
-		res.sendFile('/assets/' + file, { root: __dirname });
+fs.readdirSync("./assets/").forEach((file) => {
+	app.get("/" + file, (req, res) => {
+		res.sendFile("/assets/" + file, { root: __dirname });
 	});
 	sitemap.push(file);
 });
 
 app.post("/log", (req, res) => {
-	if(!req.query['uid']) {
+	if (!req.query["uid"]) {
 		res.status(400);
 		res.end();
 		return;
 	}
-	const uid = req.query['uid'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
+
+	const uid = req.query["uid"].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gim, "");
+
 	if (uid.length < 1) {
 		res.status(400);
 		res.end();
 		return;
 	}
 
-	if(req.query['n']){
-		const username = req.query['n'].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gmi, '');
+	if (req.query["n"]) {
+		const username = req.query["n"].substr(0, 8).replace(/[^a-z0-9.,\-_\!]/gim, "");
+
 		if (username.length < 1) {
 			res.status(400);
 			res.end();
@@ -61,19 +64,21 @@ app.post("/log", (req, res) => {
 			return;
 		}
 
-		if(uid in connected)
-			connected[uid].time = [Date.now(),  connected[uid].time[1]];
+		if (uid in connected)
+			connected[uid].time = [Date.now(), connected[uid].time[1]];
 		else
-			connected[uid] = {name:username,time:[Date.now(), Date.now()]};
+			connected[uid] = {name: username, time: [Date.now(), Date.now()]};
 
 		const time = Math.round((Date.now() - connected[uid].time[1]) / 1000);
 
-		if(uid in connected){
-			if (connected[uid].name && connected[uid].name != username){
+		if (uid in connected) {
+			if (connected[uid].name && connected[uid].name != username) {
 				let tmps = DB;
-				const ind = tmps.findIndex(({ name }) => name === connected[uid].name)
-				if(ind !== -1 && time >= tmps[ind].time) {
-					tmps.splice(ind,1);
+				const ind = tmps.findIndex(({ name }) =>
+						name === connected[uid].name
+					);
+				if (ind !== -1 && time >= tmps[ind].time) {
+					tmps.splice(ind, 1);
 					DB = tmps;
 					fs.writeFileSync("tops.json", JSON.stringify(DB));
 				}
@@ -84,10 +89,10 @@ app.post("/log", (req, res) => {
 		if (DB.length == 0 || time >= DB[DB.length - 1].time || DB.length < 100) {
 			// fill top 100
 			let tmp = DB;
-			const ind = tmp.findIndex(({ name }) => name === username)
+			const ind = tmp.findIndex(({ name }) => name === username);
 			if (ind === -1 || tmp[ind].time < time) {
 				if (ind === -1)
-					tmp.push({ name: username, time: time });
+					tmp.push({name: username, time: time});
 				else
 					tmp[ind].time = time;
 				tmp = sort_array(tmp);
@@ -100,10 +105,10 @@ app.post("/log", (req, res) => {
 
 		res.send({name: username, time: time});
 	} else {
-		if(uid in connected)
+		if (uid in connected)
 			connected[uid].time = [Date.now(), connected[uid].time[1]];
 		else
-			connected[uid] = {name:"",time:[Date.now(), Date.now()]};
+			connected[uid] = {name: "", time: [Date.now(), Date.now()]};
 	}
 	res.status(200);
 	res.end();
@@ -131,14 +136,14 @@ app.get("/robots.txt", (req, res) => {
 	res.end();
 });
 
-function genSiteMap(){
+function genSiteMap() {
 	const lastmod = new Date(Date.now()).toISOString().split("T")[0];
-	let response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
-	sitemap.forEach(function (URLs){
-		response+="<url>\n<loc>https://leekspin.co/"+URLs+"</loc>\n";
-		response+="<lastmod>"+lastmod+"</lastmod>\n</url>\n"
+	let response = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+	sitemap.forEach(function (URLs) {
+		response += "<url>\n<loc>https://leekspin.co/" + URLs + "</loc>\n";
+		response += "<lastmod>" + lastmod + "</lastmod>\n</url>\n";
 	});
-	response+="</urlset>"
+	response += "</urlset>";
 	app.get("/sitemap.xml", (req, res) => {
 		res.send(response);
 		res.status(200);
