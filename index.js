@@ -97,6 +97,8 @@ app.post("/log", (req, res) => {
 				}
 			}
 		}
+
+		res.send({name: username, time: time});
 	} else {
 		if(uid in connected)
 			connected[uid].time = [Date.now(), connected[uid].time[1]];

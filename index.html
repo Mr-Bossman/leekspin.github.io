@@ -244,6 +244,11 @@
 			padding: 1%;
 		}
 
+		.spot-sep {
+			padding-bottom: 2.5%;
+			border-bottom: 0.1rem groove var(--leader);
+		}
+
 		#nameinput {
 			width: 5rem;
 			border-radius: 2px;
@@ -442,31 +447,45 @@
 		}
 
 		async function sendupdate() {
+			const billboard = document.getElementById("board");
+			let my_spot = undefined;
+
 			if (name !== "") {
 				const url = '/log?n=' + name + '&uid=' + UID;
-				await fetch(url, { method: "POST" })
-					.catch(err => console.log(err));
+				my_spot = await fetch(url, { method: "POST" })
+					.then(res => {
+						if (res.ok)
+							return res.json();
+						alert("Server rejected Name.")
+					}).catch(err => console.log(err));
 			} else {
 				const url = '/log?uid=' + UID;
 				await fetch(url, { method: "POST" })
 					.catch(err => console.log(err));
 			}
-			const billboard = document.getElementById("board");
-			while (billboard.childElementCount > 2) {
+			while (billboard.childElementCount > 2)
 				billboard.removeChild(billboard.lastElementChild);
-			}
+
 			const url = '/tops';
 			const board = await fetch(url)
 				.then(res => res.json())
 				.catch(err => console.log(err));
 
-			for (const ind in board) {
+			const pop_entry = (name, time) => {
 				let tmp = document.getElementById("tmp").cloneNode(true);
-				tmp.childNodes[1].innerHTML = board[ind].name;
-				tmp.childNodes[3].innerHTML = totime(board[ind].time);
+				tmp.childNodes[1].innerHTML = name;
+				tmp.childNodes[3].innerHTML = totime(time);
 				tmp.hidden = false;
 				billboard.appendChild(tmp);
 			}
+
+			if (my_spot) {
+				pop_entry(my_spot.name, my_spot.time);
+				billboard.lastChild.classList.add("spot-sep");
+			}
+
+			for (const ind in board)
+				pop_entry(board[ind].name, board[ind].time);
 		}
 
 		function submit() {
