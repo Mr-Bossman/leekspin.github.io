@@ -5,6 +5,7 @@ const request = require("request");
 
 var sitemap = ["tops","","info.txt","icon.png"];
 var DB = JSON.parse(fs.readFileSync("tops.json", "utf8"));
+const banned_words = JSON.parse(fs.readFileSync("banned_words.json", "utf8"));
 var connected = {};
 
 function clean() {
@@ -54,6 +55,12 @@ app.post("/log", (req, res) => {
 			return;
 		}
 
+		if (banned_words.includes(username.toLowerCase())) {
+			res.status(400);
+			res.end();
+			return;
+		}
+
 		if(uid in connected)
 			connected[uid].time = [Date.now(),  connected[uid].time[1]];
 		else
@@ -74,7 +81,7 @@ app.post("/log", (req, res) => {
 			connected[uid].name = username;
 		}
 
-		if (time >= DB[DB.length - 1].time || DB.length < 100) {
+		if (DB.length == 0 || time >= DB[DB.length - 1].time || DB.length < 100) {
 			// fill top 100
 			let tmp = DB;
 			const ind = tmp.findIndex(({ name }) => name === username)
